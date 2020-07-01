@@ -20,7 +20,7 @@ function get(type: envT, key: string, defaulValue?: any): any {
   var envVariable = process.env[key];
   if (!envVariable) {
     if (defaulValue === undefined) {
-      throw new Error(`${key} must be defined as env variable`);
+      throw new Error(`${key} must be defined as an env variable`);
     }
     return defaulValue;
   }
