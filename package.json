@@ -1,6 +1,6 @@
 {
   "name": "ts-get-env",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Get env with compile time & runtime type guard",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
