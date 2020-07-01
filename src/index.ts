@@ -3,12 +3,14 @@ type envT = "string" | "number" | "boolean";
 class ConversionError extends Error {
   constructor() {
     super();
+    Object.setPrototypeOf(this, ConversionError.prototype);
   }
 }
 
 class UnknownTypeError extends Error {
   constructor() {
     super();
+    Object.setPrototypeOf(this, UnknownTypeError.prototype);
   }
 }
 
