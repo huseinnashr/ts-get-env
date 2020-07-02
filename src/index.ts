@@ -1,4 +1,5 @@
 type envT = "string" | "number" | "boolean";
+type keyT = string | string[];
 
 class ConversionError extends Error {
   constructor() {
@@ -14,19 +15,39 @@ class UnknownTypeError extends Error {
   }
 }
 
-function get(type: "string", key: string, defaulValue?: string): string;
-function get(type: "number", key: string, defaulValue?: number): number;
-function get(type: "boolean", key: string, defaulValue?: boolean): boolean;
+function get(type: "string", keys: keyT, defaulValue?: string): string;
+function get(type: "number", keys: keyT, defaulValue?: number): number;
+function get(type: "boolean", keys: keyT, defaulValue?: boolean): boolean;
 
-function get(type: envT, key: string, defaulValue?: any): any {
-  var envVariable = process.env[key];
+function get(type: envT, keys: keyT, defaulValue?: any): any {
+  var chosenKey: string | null;
+
+  if (keys instanceof Array) {
+    keys.some((k: string) => {
+      if (process.env[k]) {
+        chosenKey = k;
+        return true;
+      }
+    });
+  } else if (typeof keys === "string") {
+    chosenKey = keys;
+  } else {
+    throw new Error("Unknown keys type");
+  }
+  const keysName = keys instanceof Array ? keys.join(" | ") : keys;
+
+  const envVariable = process.env[chosenKey!];
   if (!envVariable) {
     if (defaulValue === undefined) {
-      throw new Error(`${key} must be defined as an env variable`);
+      throw new Error(`${keysName} must be defined as an env variable`);
     }
     return defaulValue;
   }
 
+  return convertString(type, chosenKey!, envVariable);
+}
+
+const convertString = (type: envT, key: keyT, envVariable: string): any => {
   try {
     switch (type) {
       case "number":
@@ -48,7 +69,7 @@ function get(type: envT, key: string, defaulValue?: any): any {
         throw error;
     }
   }
-}
+};
 
 const convertToNumber = (value: string): number => {
   const number = parseFloat(value);
