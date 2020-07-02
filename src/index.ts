@@ -80,7 +80,7 @@ const convertToNumber = (value: string): number => {
 };
 
 const convertToBoolean = (value: string): boolean => {
-  switch (value) {
+  switch (value.toLowerCase()) {
     case "true":
       return true;
     case "false":
