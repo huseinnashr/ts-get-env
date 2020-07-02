@@ -10,4 +10,4 @@ console.log(
   env.get("boolean", ["UNKNOWN", "EXT_AWESOME", "AWESOME"])
 );
 console.log("UNKNOWN", env.get("boolean", "UNKNOWN", false));
-console.log("UNKNOWN_ARR", env.get("boolean", ["UNKNOWN1", "UNKNOWN2"]), false);
+console.log("UNKNOWN_ARR", env.get("boolean", ["UNKNOWN1", "UNKNOWN2"], false));
